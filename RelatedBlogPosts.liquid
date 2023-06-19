@@ -1,0 +1,105 @@
+<section class="page-width">
+    <div class="section-header">
+        <h1 class="section-title">{{ section.settings.title }}</h1>
+    </div>
+    <div class="article-wrap">
+        <div class="article-item">
+            {% comment %}
+                Assign first article object based on metafield value. If the metafield is empty use section settngs.
+            {% endcomment %}
+            {%- if product.metafields.custom.related_blog_post_1 == blank -%} 
+                {% assign article_1 = section.settings.article_1 %}
+            {% else %}
+                {% assign article_1 =  articles[ product.metafields.custom.related_blog_post_1 ] %}
+            {% endif %}
+            {% if article_1 != blank %}
+                {% if article_1.image != blank %}
+                    {% if article_1.image.alt != blank %}
+                        {% assign alt_text = article_1.image.alt %}
+                    {% else %}
+                        {% assign alt_text = article_1.title %}
+                    {% endif %}
+ 
+                    <div class="article-image-wrap">
+                        <a href=" {{ article_1.url }}"> 
+                            <img src="{{ article_1.image | img_url : "1000x" }}" alt="{{ alt_text  }}" width height loading="lazy">
+                        </a>   
+                    </div>
+                {% endif %}
+                <div class="article-content-wrap">
+                    <h2 class="article-title">
+                        {{ article_1.title }}
+                    </h2>
+                    <p class="article-content">
+                        <span class="circle-divider">{{ article_1.published_at | time_tag: format: 'date' }}</span>
+                        <span>{{ article_1.author }}</span> 
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="article-item">
+            {% comment %}
+                Assign second article object based on metafield value. If the metafield is empty use section settngs.
+            {% endcomment %}
+            {% if product.metafields.custom.related_blog_post_2 == blank %}
+                {% assign article_2 = section.settings.article_2 %}
+                {% else %}
+                {% assign article_2 =  articles[ product.metafields.custom.related_blog_post_2 ] %}
+            {% endif %}
+            {% if article_2 != blank %}
+                {% if article_2.image != blank %}
+                    {% if article_2.image.alt != blank  %}
+                        {% assign alt_text = article_2.image.alt %}
+                    {% else %}
+                        {% assign alt_text = article_2.title %}
+                    {% endif %}
+                    <div class="article-image-wrap">
+                        <a href=" {{ article_2.url }}"> 
+                            <img src="{{ article_2.image | img_url : "1000x" }}" alt="{{ alt_text  }}" width height loading="lazy">
+                        </a>   
+                    </div>
+                {% endif %}
+
+                <div class="article-content-wrap">
+                    <h2 class="article-title">
+                        {{ article_2.title }}
+                    </h2>
+                    <p class="article-content">
+                        <span class="circle-divider">{{ article_2.published_at | time_tag: format: 'date' }}</span>
+                        <span>{{ article_2.author }}</span> 
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+    "templates": ["product"],   
+    "name":"RelatedBlogPosts",
+    "class":"section-related-blog-posts",
+    "settings":[
+        {
+            "type":"text",
+            "id":"title",
+            "label":"Title"
+        },
+        {
+            "type":"article",
+            "id":"article_1",
+            "label":"Article"
+        },
+        {
+            "type":"article",
+            "id":"article_2",
+            "label":"Article"
+        }
+    ],
+    "presets":[
+        {
+            "name":"RelatedBlogPosts"
+        }
+    ]
+}
+{% endschema %}
