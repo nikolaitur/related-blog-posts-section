@@ -6,7 +6,7 @@
         <div class="article-item">
             {% comment %}
                 Assign first article object based on metafield value. If the metafield is empty use section settngs.
-            {% endcomment %}
+            {% endcomment %} 
             {%- if product.metafields.custom.related_blog_post_1 == blank -%} 
                 {% assign article_1 = section.settings.article_1 %}
             {% else %}
